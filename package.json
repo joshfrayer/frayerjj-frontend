@@ -1,0 +1,21 @@
+{
+  "name": "frayerjj-frontend",
+  "version": "0.1.59",
+  "description": "My base frontend for various projects",
+  "main": "src/index.js",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "scripts": {
+    "build": "echo 'No build step required'",
+    "test": "echo 'No tests yet'"
+  },
+  "author": "Joshua Frayer",
+  "license": "MIT",
+  "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^44.3.0",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.3"
+  }
+}
