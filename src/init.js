@@ -1,21 +1,23 @@
 import * as bootstrap from 'bootstrap';
-import { createPopper } from '@popperjs/core';
-import { message } from './message';
-import { modal } from './modal';
-import { validate } from './validate';
-import { loading } from './loading';
-import { ajax } from './ajax';
-import { session } from './session';
-import { ckeupload } from './ckeupload';
 import { ClassicEditor } from '@ckeditor/ckeditor5-build-classic';
+import { createPopper } from '@popperjs/core';
+import { avatarCropper } from './avatarCropper';
+import { ckeupload } from './ckeupload';
+import { fileUpload } from './fileUpload';
+import { hasMany } from './hasMany';
+import { loading } from './loading';
+import { msg } from './msg';
+import { modal } from './modal';
+import { phoneInput } from './phoneInput';
+import { session } from './session';
+import { validate } from './validate';
 
 export const init = () => {
 
     window.bootstrap = bootstrap;
     window.createPopper = createPopper;
-    window.message = message;
+    window.msg = msg;
     window.modal = modal;
-    window.ajax = ajax;
     window.session = session;
     window.validate = validate;
     window.loading = loading;
@@ -24,16 +26,39 @@ export const init = () => {
     
     window.addEventListener('load', () => {
 
-        message.verbose('Page Loaded, Initializing');
-        validate.init();
-        modal.ajax.init();
+        msg.verbose('Page Loaded, Initializing');
+        avatarCropper.init();
         ckeupload.init();
-        
+        fileUpload.init();
+        hasMany.init();
+        modal.ajax.init();
+        phoneInput.init();
+        validate.init();
+
+        //Dynamic height for container-fixed
+        let container = document.querySelectorAll('.container-fixed');
+        if (container.length) {
+            let setHeigth = () => {
+                    let sub = document.querySelectorAll('.navbar,header,footer')
+                if (container) {
+                    let height = window.innerHeight;
+                    sub.forEach((el) => {
+                        height -= el.offsetHeight;
+                    });
+                    container.forEach((el) => {
+                        el.style.height = height + 'px';
+                    });
+                }
+            }
+            setHeigth();
+            window.addEventListener('resize', setHeigth);
+        }
+            
         // Updates the id in the form action inside a modal. Used for delete confirm and edit modals.
         document.querySelectorAll('.modal-uuid-update').forEach(el => {
-            message.verbose('Enabling Modal UUID Update');
+            msg.verbose('Enabling Modal UUID Update');
             el.addEventListener('click', ev => {
-                message.verbose('Updating Modal UUID');
+                msg.verbose('Updating Modal UUID');
                 ev.preventDefault();
                 let uuid = el.getAttribute('inst-uuid'),
                     modalSelector = el.getAttribute('data-bs-target'),
@@ -45,7 +70,7 @@ export const init = () => {
                     form.setAttribute('action', action);
                 }
                 else {
-                    message.warn('Unable to update modal UUID.');
+                    msg.warn('Unable to update modal UUID.');
                     modal.close();
                     modal.alert('Error', 'Unable to initialize form.');
                 }
@@ -54,18 +79,18 @@ export const init = () => {
 
         // Automatically submits on change. Used in Page Nav Selects.
         document.querySelectorAll('.change-submit').forEach(el => {
-            message.verbose('Enabling Change Submit');
+            msg.verbose('Enabling Change Submit');
             el.addEventListener('change', () => {
-                message.verbose('Change Submit Triggered');
+                msg.verbose('Change Submit Triggered');
                 el.closest('form').submit();
             });
         });
 
         // Confirm/Delete Modals
         document.querySelectorAll('.confirm-link').forEach(el => {
-            message.verbose('Enabling Confirm Link');
+            msg.verbose('Enabling Confirm Link');
             el.addEventListener('click', ev => {
-                message.verbose('Confirm Link Triggered');
+                msg.verbose('Confirm Link Triggered');
                 ev.preventDefault();
                 modal.confirm(
                     el.getAttribute('confirm-msg') || 'Are you sure?',
@@ -79,19 +104,38 @@ export const init = () => {
             });
         });
 
+        // Filter Selects
+        document.querySelectorAll('.filter-select').forEach(select => {
+            msg.verbose('Enabling Filter Select');
+            select.addEventListener('change', ev => {
+                msg.verbose('Filter Select Triggered');
+                if (el.value)
+                    document.querySelectorAll('.filter-' + select.getAttribute('name')).forEach(el => {
+                        if (el.classList.contains('filter-' + select.getAttribute('name') + '-' + select.value))
+                            el.style.display = '';
+                        else
+                            el.style.display = 'none';
+                    });
+                else
+                    document.querySelectorAll('.filter-' + select.getAttribute('name')).forEach(el => {
+                        el.style.display = '';
+                    });
+            });
+        });
+
         // Scroll to top button
         let toTop = document.getElementById('toTopBtn');
         toTop.style.visibility = "hidden";
         toTop.addEventListener('click', () => {
-            message.verbose('Scrolling to Top');
+            msg.verbose('Scrolling to Top');
             scrollTo(0, 0);
         });
         window.addEventListener('scroll', () => {
             if (scrollY > 1500) {
-                message.verbose('Scrolling to Top Button Visible');
+                msg.verbose('Scrolling to Top Button Visible');
                 toTop.style.visibility = "visible";
             } else {
-                message.verbose('Scrolling to Top Button Hidden');
+                msg.verbose('Scrolling to Top Button Hidden');
                 toTop.style.visibility = "hidden";
             }
         });

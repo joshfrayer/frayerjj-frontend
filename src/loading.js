@@ -1,4 +1,4 @@
-import { message } from './message';
+import { msg } from './msg';
 import { session } from './session';
 
 export const loading = {
@@ -72,32 +72,32 @@ export const loading = {
 
     init: () => {
         window.addEventListener('DOMContentLoaded', () => {
-            message.verbose('DOM Loaded, Starting Animation');
+            msg.verbose('DOM Loaded, Starting Animation');
             loading.start();
         });
         window.addEventListener('beforeunload', () => {
-            message.verbose('Navigating Away, Starting Animation');
+            msg.verbose('Navigating Away, Starting Animation');
             loading.start(1);
         });
         window.addEventListener('error', () => {
-            message.verbose('DOM Error, Clearing Animation');
+            msg.verbose('DOM Error, Clearing Animation');
             loading.clear();
         });
         window.addEventListener('abort', () => {
-            message.verbose('Load Aborted, Clearing Animation');
+            msg.verbose('Load Aborted, Clearing Animation');
             loading.clear();
         });
         window.addEventListener('unload', () => {
-            message.verbose('Page Unloaded, Clearing Animation');
+            msg.verbose('Page Unloaded, Clearing Animation');
             loading.clear();
         });
         window.addEventListener('load', () => {
-            message.verbose('Resources Loaded, Stopping Animation');
+            msg.verbose('Resources Loaded, Stopping Animation');
             loading.stop();
         });
         window.addEventListener('pageshow', (e) => {
             if (e.originalEvent && e.originalEvent.persisted) {
-                message.verbose('Back button detected, Stopping Animation');
+                msg.verbose('Back button detected, Stopping Animation');
                 loading.stop();
             }
         });

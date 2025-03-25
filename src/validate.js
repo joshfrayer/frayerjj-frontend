@@ -1,4 +1,4 @@
-import { message } from './message.js';
+import { msg } from './msg.js';
 
 export const validate = {
     methods: {
@@ -32,7 +32,7 @@ export const validate = {
         return form.querySelectorAll('input.is-invalid,select.is-invalid,textarea.is-invalid').length == 0;
     },
     init: () => {
-        message.verbose('Initializing Validation');
+        msg.verbose('Initializing Validation');
         Object.entries(validate.methods).forEach(([ className, validationMethod ]) => {
             document.querySelectorAll('input.' + className + ',select.' + className + ',textarea.' + className).forEach(input => {
                 input.addEventListener('blur', () => {
@@ -48,12 +48,12 @@ export const validate = {
         });
         document.querySelectorAll('form:not(.skip-validation)').forEach(form => {
             form.addEventListener('submit', ev => {
-                message.verbose('Form Submitted, Validating');
+                msg.verbose('Form Submitted, Validating');
                 if (!validate.check(form)) {
-                    message.warn('Form failed validation. Submited cancelled.');
+                    msg.warn('Form failed validation. Submited cancelled.');
                     ev.preventDefault();
                     form.querySelector('input.is-invalid,select.is-invalid,textarea.is-invalid').focus();
-                    message.warn('Form failed validation. Submited cancelled.');
+                    msg.warn('Form failed validation. Submited cancelled.');
                 } 
             });
         });

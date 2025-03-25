@@ -1,5 +1,5 @@
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { message } from "./message";
+import { msg } from "./msg";
 
 export const ckeupload = {
     adapter: editor => {
@@ -59,6 +59,16 @@ export const ckeupload = {
         };
         window.editors = [];
         document.querySelectorAll('.wysiwyg').forEach(el => {
+            if (el.getAttribute('data-bs-toggle') === 'tooltip') {
+                let placement = el.getAttribute('data-bs-placement'),
+                    title = el.getAttribute('title');
+                el.parentElement.setAttribute('data-bs-toggle', 'tooltip');
+                el.parentElement.setAttribute('data-bs-placement', placement);
+                el.parentElement.setAttribute('title', title);
+                el.removeAttribute('data-bs-toggle');
+                el.removeAttribute('data-bs-placement');
+                el.removeAttribute('title');
+            }
             ClassicEditor.create(el, {
                 licenseKey: 'GPL',
                 htmlSupport: {
@@ -76,7 +86,7 @@ export const ckeupload = {
                 extraPlugins: [ CkeUploadAdapter ]
             }).then(editor => {
                 window.editors[el.id] = editor;
-                message.verbose('CKEditor Initialized');
+                msg.verbose('CKEditor Initialized');
             }).catch( error => {
                 console.error( 'There was a problem initializing the editor.', error );
             });

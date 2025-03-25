@@ -1,4 +1,4 @@
-export const message = {
+export const msg = {
 
     verbose: (msg) => {
         if (window.verbose) console.log(msg);

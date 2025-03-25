@@ -1,6 +1,6 @@
 {
   "name": "frayerjj-frontend",
-  "version": "0.1.59",
+  "version": "0.3.0",
   "description": "My base frontend for various projects",
   "main": "src/index.js",
   "type": "module",
@@ -16,6 +16,9 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^44.3.0",
     "@popperjs/core": "^2.11.8",
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.3",
+    "cropperjs": "^2.0.0",
+    "flag-icons": "^7.3.2",
+    "libphonenumber-js": "^1.12.6"
   }
 }

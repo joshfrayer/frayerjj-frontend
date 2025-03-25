@@ -1,122 +1,7 @@
-import * as bootstrap from 'bootstrap';
-import { ajax } from './ajax.js';
-import { message } from './message.js';
+import { Modal } from 'bootstrap';
+import { msg } from './msg.js';
 
 export const modal = {
-
-    buildLine: vars => {
-        let row = '<div class="row ' + (vars.rowClass ?? '') + '">';
-        if (vars.label) row += '<label class="fw-bold text-dark">' + vars.label + "</label>";
-        row += '</div>';
-        return row;
-    },
-
-    buildInput: vars => {
-        let input = '';
-        if (vars.type == 'textarea') input += '<textarea class="form-control ';
-        if (vars.type == 'select') input += '<select class="form-select ';
-        else input += '<input type="' + vars.type + '" value="' + vars.value + '" placeholder="' + (vars.placeholder ?? vars.label) + '" class="form-control ';
-        input += (vars.inputClass ?? '') + '" id="' + vars.id + '" aria-label="' + (vars.placeholder ?? vars.label) + '" ' + (vars.checked ? 'checked' : '') + '>';
-        if (vars.type == 'textarea') input += vars.value + '</textarea>'
-        if (vars.type == 'select') input += '</select>';
-        return input;
-    },
-
-    buildInputLine: vars => {
-        let row = '<div class="row ' + (vars.rowClass ?? '') + '">';
-        if (vars.type == 'checkbox' || vars.type == 'radio') {
-            row += modal.buildInput(vars);
-            if (vars.label) row += '<label for="' + vars.id + '" class="fw-bold text-dark">' + vars.label + '</label>';
-        } else {
-            if (vars.label) row += '<label for="' + vars.id + '" class="fw-bold text-dark">' + vars.label + '</label>';
-            row += '<div class="input-group">';
-            if (vars.prepend) row += '<span class="input-group-text">' + vars.prepend + '</span>';
-            row += modal.buildInput(vars);
-            if (vars.append) row += '<span class="input-group-text">' + vars.append + '</span>';
-            row += '</div></div>';
-        }
-        return row;
-    },
-    
-    build: vars => {
-        message.verbose('Building Dynamic Modal');
-        let html =
-            '<div id="' + vars.id + '" class="modal" tabindex="-1">' +
-                '<div class="modal-dialog ' + (vars.class ?? '') + '">' +
-                    '<div class="modal-content">' +
-                        '<div class="modal-header">' +
-                            '<h5 class="modal-title">' + vars.title + '</h5>' +
-                            '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' +
-                        '</div>' +
-                        '<div class="modal-body">' +
-                            '<div class="col">' + (vars.body ?? '');
-        if (vars.inputs) Object.values(vars.inputs).forEach(i => {
-            if (i.type) html += modal.buildInputLine(i);
-            else html += modal.buildLine(i);
-        });
-        html +=
-                            '</div>' +
-                        '</div>' +
-                        '<div class="modal-footer">';
-        if (vars.buttons) Object.values(vars.buttons).forEach(b => {
-            html += '<button type="button" class="btn btn-outline-secondary me-1 ' + (b.class ?? '') + '" data-bs-dismiss="modal">' + b.text + '</button>';
-        });                
-        html +=                
-                        '</div>' +
-                    '</div>' +
-                '</div>' +
-            '</div>';
-        return html;
-    },
-    
-    alert: (msg, title = "Alert", button = "OK") => {
-        message.verbose('Building Alert Modal');
-        document.querySelector('body').insertAdjacentHTML('beforeend', modal.build({
-            id: 'alert-modal',
-            title: title,
-            body: '<p>' + msg + '</p>',
-            buttons: [ { text: button } ]
-        }));
-        let alertModal = document.getElementById('alert-modal');
-        alertModal.addEventListener('hidden.bs.modal', ev => {
-            ev.target.remove();
-        });
-        let bsAlertModal = new bootstrap.Modal(alertModal);
-        bsAlertModal.show();
-    },
-    
-    confirm: (msg, onConfirm, onCancel, title = "Are you sure?", buttonYes = "Yes", buttonNo = "No") => {
-        message.verbose('Building Confirm Modal');
-        document.querySelector('body').insertAdjacentHTML('beforeend', modal.build({
-            id: 'confirm-modal',
-            title: title,
-            body: '<p>' + msg + '</p>',
-            buttons: [
-                { text: buttonYes, class: 'btn-confirm' },
-                { text: buttonNo, class: 'btn-outline-danger' } ]
-        }));
-        let confirmModal = document.getElementById('confirm-modal');
-        confirmModal.addEventListener('hidden.bs.modal', ev => {
-            ev.target.remove();
-        });
-        confirmModal.querySelector('.btn-confirm').addEventListener('click', () => {
-            onConfirm();
-        });
-        confirmModal.querySelector('.btn-outline-danger').addEventListener('click', () => {
-            onCancel();
-        });
-        let bsConfirmModal = new bootstrap.Modal(confirmModal);
-        bsConfirmModal.show();
-    },
-
-    close: () => {
-        message.verbose('Closing Modals');
-        document.querySelectorAll('.modal').forEach(modal => {
-            let bsModal = bootstrap.Modal.getInstance(modal);
-            if (bsModal) bsModal.hide();
-            else new bootstrap.Modal(modal).hide();
-        });
-    },
     
     ajax: {
     
@@ -128,80 +13,279 @@ export const modal = {
         init: () => {
             // Cycle through all AJAX Modals in DOM
             document.querySelectorAll('.ajax-modal').forEach(el => {
-                message.verbose('Enabling AJAX Modal');
-                el.addEventListener('click', () => {
-                    message.verbose('Building AJAX Modal');
+                msg.verbose('Enabling AJAX Modal');
+                el.addEventListener('click', ev => {
+                    ev.preventDefault();
+                    msg.verbose('Building AJAX Modal');
                     let buttons;
-                    if (el.getAttribute('modal-info')) buttons = [{ text: 'OK' }];
-                    else buttons = [{ text: 'Save', class: 'btn-save' }, { text: 'Cancel' }];
-                    document.querySelector('body').insertAdjacentHTML('beforeend', modal.build({
-                        id: el.getAttribute('data-bs-target').substring(1),
+                    if (el.getAttribute('modal-info'))
+                        buttons = [{ text: 'OK' }];
+                    else
+                        buttons = [{ text: 'Save', class: 'btn-save' }, { text: 'Cancel' }];
+                    let randomId = modal.randomId('ajax');
+                    document.querySelector('body').insertAdjacentHTML('beforeend', modal.build.modal({
+                        id: randomId,
                         title: el.getAttribute('modal-title'),
                         body: '',
                         class: (el.getAttribute('modal-class') ?? ''),
                         buttons: buttons
                     }));
-                    let ajaxModal = document.getElementById(el.getAttribute('data-bs-target').substring(1));
+                    let ajaxModal = document.getElementById(randomId),
+                        ajaxModalBody = ajaxModal.querySelector('.modal-body');
                     ajaxModal.addEventListener('hidden.bs.modal', ev => {
                         ev.target.remove();
                     });
-                    let bsAjaxModal = new bootstrap.Modal(ajaxModal);
-                    let ajaxModalBody = ajaxModal.querySelector('.modal-body');
+                    let bsAjaxModal = Modal.getOrCreateInstance(ajaxModal);
                     bsAjaxModal.show();
-                    loading.start(ajaxModalBody);
-                    message.verbose('Loading AJAX Modal');
-                    ajax({
-                        method: 'GET',
-                        uri: el.getAttribute('modal-load-uri'),
-                        json: false,
-                        success: html => {
-                            ajaxModalBody.insertAdjacentHTML('afterbegin', html);
-                            let images = ajaxModalBody.querySelectorAll('img')
-                            if (images.length) {
-                                let counter = images.length;
-                                images.forEach(image => {
-                                    if (image.complete && --counter == 0) loading.stop();
-                                    else image.addEventListener('load', () => {
-                                        if (--counter == 0) loading.stop();
-                                    });
+                    loading.start(0, ajaxModalBody);
+                    msg.verbose('Loading AJAX Modal');
+                    fetch(el.getAttribute('modal-load-uri'), { method: 'GET' }).then(response => {
+                        ajaxModalBody.insertAdjacentHTML('afterbegin', response);
+                        let images = ajaxModalBody.querySelectorAll('img')
+                        if (images.length) {
+                            let counter = images.length;
+                            images.forEach(image => {
+                                if (image.complete && --counter == 0) loading.stop();
+                                else image.addEventListener('load', () => {
+                                    if (--counter == 0) loading.stop();
                                 });
-                            } else loading.stop();
-                            message.verbose('AJAX Modal Loaded');
-                            if (!el.getAttribute('modal-info')) {
-                                let saveButton = ajaxModal.querySelector('.btn-save');
-                                saveButton.removeAttribute('data-bs-dismiss').addEventListener('click', () => {
-                                    message.verbose('Saving AJAX Modal');
-                                    loading.start(ajaxModal.querySelector('.modal-body'));
-                                    let form = ajaxModal.querySelector('form');
-                                    ajax({
-                                        method: 'POST',
-                                        uri: form.getAttribute('action'),
-                                        vars: serialize(form),
-                                        success: () => {
-                                            message.verbose('AJAX Modal Saved');
-                                            bsAjaxModal.hide();
-                                            ajaxModal.remove();
-                                            loading.stop();
-                                        },
-                                        failure: () => {
-                                            message.warn('AJAX Modal Save Failed');
-                                            modal.alert(modal.ajax.error.save.msg, modal.ajax.error.save.title);
-                                            loading.stop();
-                                        }
-                                    });
+                            });
+                        } else loading.stop();
+                        msg.verbose('AJAX Modal Loaded');
+                        if (!el.getAttribute('modal-info')) {
+                            msg.verbose('Adding submit handler to AJAX Modal');
+                            ajaxModal.querySelector('.btn-save').addEventListener('click', () => {
+                                msg.verbose('Submitting AJAX Modal');
+                                loading.start(0, ajaxModalBody);
+                                let form = ajaxModal.querySelector('form');
+                                fetch(form.getAttribute('action'), {
+                                    method: 'POST',
+                                    body: new FormData(form)
+                                }).then(response => {
+                                    msg.verbose('AJAX Modal Saved');
+                                    loading.stop();
+                                    bsAjaxModal.hide();
+                                    ajaxModal.remove();
+                                }).catch(() => {
+                                    msg.warn('AJAX Modal Save Failed');
+                                    loading.stop();
+                                    modal.alert(modal.ajax.error.save.msg, modal.ajax.error.save.title);
                                 });
-                            }
-                        },
-                        failure: () => {
-                            message.warn('AJAX Modal Load Failed');
-                            loading.stop();
-                            bsAjaxModal.hide();
-                            ajaxModal.remove();
-                            modal.alert(modal.ajax.error.load.msg, modal.ajax.error.load.title);
+                            });
                         }
+                    }).catch(() => {
+                        msg.warn('AJAX Modal Load Failed');
+                        loading.stop();
+                        bsAjaxModal.hide();
+                        ajaxModal.remove();
+                        modal.alert(modal.ajax.error.load.msg, modal.ajax.error.load.title);
                     });
                 });
             });
         }
+    },
+
+    alert: (msg, title = "Alert", button = "OK") => {
+        msg.verbose('Building Alert Modal');
+        let randomId = modal.randomId('confirm');
+        document.querySelector('body').insertAdjacentHTML('beforeend', modal.build.modal({
+            id: randomId,
+            title: title,
+            body: '<p>' + msg + '</p>',
+            buttons: [ { text: button } ]
+        }));
+        let alertModal = document.getElementById(randomId),
+            bsAlertModal = Modal.getOrCreateInstance(alertModal);
+        alertModal.addEventListener('hidden.bs.modal', ev => {
+            ev.target.remove();
+        });
+        modal.close();
+        bsAlertModal.show();
+    },
+
+    build: {
+
+        input: args => {
+            let input;
+            if (args.type == 'select') {
+                input = document.createElement('select');
+                input.className = 'form-select';
+                if (args.opts)
+                    for (let [key, val] of  Object.entries(args.opts)) {
+                        let option = document.createElement('option');
+                        option.value = key;
+                        option.textContent = val;
+                        if (key == args.value)
+                            option.setAttribute('selected', 'selected');
+                        input.appendChild(option);
+                    }
+            } else {
+                if (args.type == 'textarea')
+                    input = document.createElement('textarea');
+                else {
+                    input = document.createElement('input');
+                    input.setAttribute('type', args.type);
+                    input.value = args.value;
+                }
+                input.className = 'form-control';
+                if (args.placeholder)
+                    input.setAttribute('placeholder', args.placeholder);
+            }
+            input.id = args.id;
+            input.setAttribute('aria-label', args.placeholder ?? args.label);
+            if (args.checked)
+                input.setAttribute('checked', 'checked');
+            if (args.inputClass)
+                input.classList.add(args.inputClass);
+            return input.outerHTML;
+        },
+    
+        inputLine: args => {
+            let row = document.createElement('div');
+            row.className = 'row';
+            if (args.rowClass)
+                row.classList.add(args.rowClass);
+            row.insertAdjacentHTML('beforeend', modal.build.input(args));
+            if (args.label)
+                if (args.type == 'checkbox' || args.type == 'radio')
+                    row.insertAdjacentHTML('beforeend', label);
+                else
+                    row.insertAdjacentHTML('afterbegin', modal.build.label(args));
+            return row.outerHTML;
+        },
+    
+        line: args => {
+            let row = document.createElement('div');
+            row.className = 'row';
+            if (args.rowClass)
+                row.classList.add(args.rowClass);
+            if (args.label)
+                row.insertAdjacentHTML('beforeend', modal.build.label(args));
+            return row.outerHTML;
+        },
+    
+        label: args => {
+            let label = document.createElement('label');
+            label.setAttribute('for', args.id);
+            label.className = 'fw-bold text-dark';
+            label.textContent = args.label;
+            return label.outerHTML;
+        },
+
+        modal: args => {
+            msg.verbose('Building Dynamic Modal');
+            
+            // Modal container
+            let modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.id = args.id;
+            modal.setAttribute('tabindex', '-1');
+            modal.setAttribute('role', 'dialog');
+            modal.setAttribute('aria-labelledby', args.title);
+    
+            // Modal dialog
+            let modalDialog = document.createElement('div');
+            modalDialog.className = 'modal-dialog';
+            if (args.className)
+                modalDialog.classList.add(args.class);
+    
+            // Modal content
+            let modalContent = document.createElement('div');
+            modalContent.className = 'modal-content';
+    
+            // Modal header
+            let modalHeader = document.createElement('div');
+            modalHeader.className = 'modal-header';
+    
+            let modalTitle = document.createElement('h5');
+            modalTitle.className = 'modal-title';
+            modalTitle.id = `${args.id}Label`;
+            modalTitle.textContent = args.title;
+    
+            let closeButton = document.createElement('button');
+            closeButton.className = 'btn-close';
+            closeButton.setAttribute('type', 'button');
+            closeButton.setAttribute('data-bs-dismiss', 'modal');
+            closeButton.setAttribute('aria-label', 'Close');
+    
+            modalHeader.appendChild(modalTitle);
+            modalHeader.appendChild(closeButton);
+    
+            // Modal body
+            let modalBody = document.createElement('div');
+            modalBody.className = 'modal-body';
+            modalBody.innerHTML = args.body ?? '';
+    
+            if (args.inputs)
+                Object.values(args.inputs).forEach(i => {
+                    if (i.type)
+                        modalBody.insertAdjacentHTML('beforeend', modal.build.inputLine(i));
+                    else
+                        modalBody.insertAdjacentHTML('beforeend', modal.build.line(i));
+                });
+    
+            // Modal footer
+            let modalFooter = document.createElement('div');
+            modalFooter.className = 'modal-footer';
+    
+            if (args.buttons)
+                Object.values(args.buttons).forEach(b => {
+                    let button = document.createElement('button');
+                    button.className = 'btn btn-outline-secondary me-1';
+                    if (b.class)
+                        button.classList.add(b.class);
+                    button.setAttribute('type', 'button');
+                    button.setAttribute('data-bs-dismiss', 'modal');
+                    button.textContent = b.text;
+                    modalFooter.appendChild(button);
+                });
+                
+            modalContent.appendChild(modalHeader);
+            modalContent.appendChild(modalBody);
+            modalContent.appendChild(modalFooter);
+            modalDialog.appendChild(modalContent);
+            modal.appendChild(modalDialog);
+    
+            return modal.outerHTML;
+        }
+    },
+    
+    close: () => {
+        msg.verbose('Closing Modals');
+        document.querySelectorAll('.modal').forEach(modal => {
+            let bsModal = Modal.getOrCreateInstance(modal);
+            if (bsModal) bsModal.hide();
+        });
+    },
+
+    confirm: (msg, onConfirm, onCancel, title = "Are you sure?", buttonYes = "Yes", buttonNo = "No") => {
+        msg.verbose('Building Confirm Modal');
+        let randomId = modal.randomId('confirm');
+        document.querySelector('body').insertAdjacentHTML('beforeend', modal.build.modal({
+            id: randomId,
+            title: title,
+            body: '<p>' + msg + '</p>',
+            buttons: [
+                { text: buttonYes, class: 'btn-confirm' },
+                { text: buttonNo, class: 'btn-outline-danger' } ]
+        }));
+        let confirmModal = document.getElementById(randomId),
+            bsConfirmModal = Modal.getOrCreateInstance(confirmModal);
+        confirmModal.addEventListener('hidden.bs.modal', ev => {
+            ev.target.remove();
+        });
+        confirmModal.querySelector('.btn-confirm').addEventListener('click', () => {
+            onConfirm();
+        });
+        confirmModal.querySelector('.btn-outline-danger').addEventListener('click', () => {
+            onCancel();
+        });
+        modal.close();
+        bsConfirmModal.show();
+    },
+
+    randomId: (base = 'modal') => {
+        return `${base}-${Date.now()}-${Math.random().toString(36).slice(2, 5)}`;
     }
+    
 };
