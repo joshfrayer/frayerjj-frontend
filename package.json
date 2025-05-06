@@ -1,6 +1,6 @@
 {
   "name": "frayerjj-frontend",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "description": "My base frontend for various projects",
   "main": "src/index.js",
   "type": "module",

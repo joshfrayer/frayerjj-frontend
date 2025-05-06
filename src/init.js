@@ -105,21 +105,21 @@ export const init = () => {
         });
 
         // Filter Selects
-        document.querySelectorAll('.filter-select').forEach(select => {
+        let filterSelects = document.querySelectorAll('.filter-select');
+        if (filterSelects.length) filterSelects.forEach(select => {
             msg.verbose('Enabling Filter Select');
             select.addEventListener('change', ev => {
                 msg.verbose('Filter Select Triggered');
-                if (el.value)
-                    document.querySelectorAll('.filter-' + select.getAttribute('name')).forEach(el => {
-                        if (el.classList.contains('filter-' + select.getAttribute('name') + '-' + select.value))
-                            el.style.display = '';
-                        else
-                            el.style.display = 'none';
+                document.querySelectorAll('.filter-item').forEach(el => {
+                    el.style.display = '';
+                    filterSelects.forEach(filter => {
+                        if (filter.value) {
+                            let attr = filter.getAttribute('filter-attr');
+                            if (el.getAttribute(attr) != filter.value)
+                                el.style.display = 'none';
+                        }
                     });
-                else
-                    document.querySelectorAll('.filter-' + select.getAttribute('name')).forEach(el => {
-                        el.style.display = '';
-                    });
+                });
             });
         });
 
