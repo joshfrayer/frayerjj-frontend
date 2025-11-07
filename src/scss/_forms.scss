@@ -1,0 +1,131 @@
+.col-form-label {
+  font-weight: 700;
+}
+input.error, select.error, textarea.error {
+  border-color: $color-light-red-background;
+  box-shadow: inset 1px 1px 1em $color-dark-red;
+}
+label.error {
+  color: $color-dark-red;
+  font-style: italic;
+  font-weight: 500;
+  position: absolute;
+  right: 2em;
+  top: .5em;
+  z-index: 2;
+}
+label.required:after {
+  content: " *";
+  color: $color-red;
+}
+span.required {
+  color: $color-red;
+}
+.input-group label.error {
+  right: 1em;
+}
+.tt-query, .tt-hint {
+  padding: 8px 12px;
+  font-size: 17px;
+  line-height: 30px;
+  border: 2px solid $color-light-gray;
+  border-radius: 8px;
+  outline: none;
+}
+.tt-query {
+  box-shadow: inset 0 1px 1px $color-light-gray;
+}
+.tt-hint {
+  color: $color-white
+}
+.tt-dropdown-menu {
+  width: 422px;
+  margin-top: 12px;
+  padding: 8px 0;
+  background-color: $color-white;
+  border: 1px solid $color-light-gray;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px $color-light-gray;
+}
+.tt-suggestion {
+  padding: 3px 20px;
+  font-size: 18px;
+  line-height: 24px;
+}
+.tt-suggestion.tt-is-under-cursor {
+  color: $color-white;
+  background-color: #0097cf;
+}
+.twitter-typeahead {
+  display: block !important;
+}
+.tt-menu {
+  background-color: $color-white;
+  border: 1px solid $color-light-gray;
+  border-radius: 4px;
+  box-shadow: 0 6px 12px $color-light-gray;
+  cursor: default;
+  padding: .5em 0;
+  top: 3.25em !important;
+  &::before, &::after {
+    border-bottom: 7px solid $color-light-gray;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 0;
+    box-sizing: border-box;
+    content: '';
+    display: inline-block;
+    left: 6px;
+    position: absolute;
+    top: -7px;
+  }
+  &::after {
+    border-bottom: 6px solid $color-white;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 0;
+    box-sizing: border-box;
+    content: '';
+    display: inline-block;
+    left: 7px;
+    position: absolute;
+    top: -6px;
+  }
+  .tt-selectable:hover {
+    background-color: $color-light-gray-background;
+    cursor: pointer;
+  }
+}
+.token {
+  display: inline-block;
+  background-color: $color-light-gray-background;
+  border: 1px solid $color-light-gray;
+  margin: 0.25rem 0.5rem 0.25rem 0;
+  padding: 0 0.5rem;
+  border-radius: 0.25rem;
+  .close {
+    margin-left: 0.5rem;
+    text-decoration: none;
+    color: $color-black;
+  }
+}
+.token-input,.token-input:focus-visible {
+  border: none;
+  outline: none;
+}
+.tokenfield {
+  height: auto !important;
+}
+.search-input .list-group {
+  z-index: 1;
+  .list-group-item:first-child {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+}
+.input-loader {
+  position: absolute;
+  top: 0.45rem;
+  right: .45rem;
+  font-size: 18pt;
+}

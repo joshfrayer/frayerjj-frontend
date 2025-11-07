@@ -1,0 +1,54 @@
+body {
+    font-family: $font-family-default;
+    @extend .d-flex,.flex-column,.min-vh-100;
+    main {
+        @extend .container,.flex-grow-1,.d-flex,.justify-content-center,.align-items-start;
+    }
+}
+.skip {
+    @extend .visually-hidden;
+    @extend .visually-hidden-focusable;
+}
+select {
+    @extend .form-select;
+}
+h1, h2 {
+    font-weight: 800;
+}
+h3, h4 {
+    font-weight: 700;
+}
+h1 {
+    font-size: 2.5rem;
+}
+h2 {
+    font-size: 2.25rem;
+}
+h3 {
+    font-size: 1.65rem;
+}
+h4 {
+    font-size: 1.5rem;
+}
+h5 {
+    font-size: 1.25rem;
+}
+h6 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+.pagination {
+    .page-item.active .page-link {
+        background-color: $color-light-gray-background;
+        border-color: $color-light-gray;
+        color: $color-black;
+        cursor: default;
+    }
+    .page-item.disabled .page-link,.page-link {
+        border-color: $color-light-gray;
+        color: $color-blue;
+    }
+}
+.print-chunk {
+    page-break-inside: avoid;
+}

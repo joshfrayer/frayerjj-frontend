@@ -12,7 +12,7 @@ import { phoneInput } from './phoneInput';
 import { session } from './session';
 import { validate } from './validate';
 
-export const init = () => {
+export const init = (args) => {
 
     window.bootstrap = bootstrap;
     window.createPopper = createPopper;
@@ -22,8 +22,8 @@ export const init = () => {
     window.validate = validate;
     window.loading = loading;
     window.ClassicEditor = ClassicEditor;
-    loading.init();
-    
+    loading.init(args?.loadingAnimationStyle ?? 'default');
+
     window.addEventListener('load', () => {
 
         msg.verbose('Page Loaded, Initializing');
@@ -125,20 +125,22 @@ export const init = () => {
 
         // Scroll to top button
         let toTop = document.getElementById('toTopBtn');
-        toTop.style.visibility = "hidden";
-        toTop.addEventListener('click', () => {
-            msg.verbose('Scrolling to Top');
-            scrollTo(0, 0);
-        });
-        window.addEventListener('scroll', () => {
-            if (scrollY > 1500) {
-                msg.verbose('Scrolling to Top Button Visible');
-                toTop.style.visibility = "visible";
-            } else {
-                msg.verbose('Scrolling to Top Button Hidden');
-                toTop.style.visibility = "hidden";
-            }
-        });
+        if (toTop) {
+            toTop.style.visibility = "hidden";
+            toTop.addEventListener('click', () => {
+                msg.verbose('Scrolling to Top');
+                scrollTo(0, 0);
+            });
+            window.addEventListener('scroll', () => {
+                if (scrollY > 1500) {
+                    msg.verbose('Scrolling to Top Button Visible');
+                    toTop.style.visibility = "visible";
+                } else {
+                    msg.verbose('Scrolling to Top Button Hidden');
+                    toTop.style.visibility = "hidden";
+                }
+            });
+        }
 
     });
 

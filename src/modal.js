@@ -39,8 +39,8 @@ export const modal = {
                     bsAjaxModal.show();
                     loading.start(0, ajaxModalBody);
                     msg.verbose('Loading AJAX Modal');
-                    fetch(el.getAttribute('modal-load-uri'), { method: 'GET' }).then(response => {
-                        ajaxModalBody.insertAdjacentHTML('afterbegin', response);
+                    fetch(el.getAttribute('modal-load-uri'), { method: 'GET' }).then(response => response.text()).then(html  => {
+                        ajaxModalBody.insertAdjacentHTML('afterbegin', html);
                         let images = ajaxModalBody.querySelectorAll('img')
                         if (images.length) {
                             let counter = images.length;
@@ -85,13 +85,13 @@ export const modal = {
         }
     },
 
-    alert: (msg, title = "Alert", button = "OK") => {
+    alert: (messsage, title = "Alert", button = "OK") => {
         msg.verbose('Building Alert Modal');
         let randomId = modal.randomId('confirm');
         document.querySelector('body').insertAdjacentHTML('beforeend', modal.build.modal({
             id: randomId,
             title: title,
-            body: '<p>' + msg + '</p>',
+            body: '<p>' + messsage + '</p>',
             buttons: [ { text: button } ]
         }));
         let alertModal = document.getElementById(randomId),
@@ -258,13 +258,13 @@ export const modal = {
         });
     },
 
-    confirm: (msg, onConfirm, onCancel, title = "Are you sure?", buttonYes = "Yes", buttonNo = "No") => {
+    confirm: (messsage, onConfirm, onCancel, title = "Are you sure?", buttonYes = "Yes", buttonNo = "No") => {
         msg.verbose('Building Confirm Modal');
         let randomId = modal.randomId('confirm');
         document.querySelector('body').insertAdjacentHTML('beforeend', modal.build.modal({
             id: randomId,
             title: title,
-            body: '<p>' + msg + '</p>',
+            body: '<p>' + messsage + '</p>',
             buttons: [
                 { text: buttonYes, class: 'btn-confirm' },
                 { text: buttonNo, class: 'btn-outline-danger' } ]

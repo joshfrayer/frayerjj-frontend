@@ -1,0 +1,53 @@
+$color-white: #fff;
+$color-black: #000;
+
+/// ORANGE
+$color-orange: #ff7318;
+$color-light-orange: lighten(desaturate(adjust-hue(#ff7318, 3), 8.77), 0.59); // #F58025
+$color-medium-orange: #f76b1c;
+$color-dark-orange: #cd4b13;
+
+/// GRAYS
+$color-dark-gray: #4c4c4c;
+$color-medium-gray: #9b9b9b;
+$color-alerts-gray: #757575;
+$color-light-gray: #d2d2d2;
+$color-light-gray-background: #f3f6f6;
+$color-gray: #515151;
+
+/// BLUES
+$color-blue: #0064b1;
+$color-light-blue: #84abd8;
+$color-dark-blue: #00467f;
+$color-blue-secondary: lighten(desaturate(adjust-hue($color-blue, 6), 27.76), 13.33); // #2275D3
+$color-blue-tertiary: darken($color-blue, 9.22); // #004A82
+
+/// REDS
+$color-red: #dc3545;
+$color-dark-red: #b35959;
+$color-light-red-background: #d99898;
+
+/// VARIABLES
+$body-text: $color-dark-gray;
+$primary-color: #0b3250;
+$color-border: rgba(255, 255, 255, 0.29);
+$overlap-color: rgba(243, 246, 246, 0.65);
+$overlap-color-compact: rgba(243, 246, 246, 0.95);
+$overlap-cta-overlay: rgba(245, 249, 255, 0.9);
+$shadow-color: rgba(0, 0, 0, 0.5);
+
+$color-gradient-dark-blue-start: #001530;
+$color-gradient-dark-blue-end: #014375;
+$color-gradient-dark-blue: linear-gradient(90deg, $color-gradient-dark-blue-start, $color-gradient-dark-blue-end);
+
+$color-gradient-blue-start: #4a90e2;
+$color-gradient-blue-end: #0b3250;
+$color-gradient-blue: linear-gradient(90deg, $color-gradient-blue-start, $color-gradient-blue-end);
+
+$color-gradient-light-blue-background-start: #dbe1e6;
+$color-gradient-light-blue-background-end: #cfdce6;
+$color-gradient-light-blue-background: linear-gradient(90deg, $color-gradient-light-blue-background-start, $color-gradient-light-blue-background-end);
+
+$color-gradient-orange-start: #ffa44a;
+$color-gradient-orange-end: #e75317;
+$color-gradient-orange: linear-gradient(90deg, $color-gradient-orange-start, $color-gradient-orange-end);

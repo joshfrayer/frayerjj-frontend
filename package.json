@@ -1,12 +1,17 @@
 {
   "name": "frayerjj-frontend",
-  "version": "0.3.2",
+  "version": "0.6.3",
   "description": "My base frontend for various projects",
   "main": "src/index.js",
   "type": "module",
   "exports": {
-    ".": "./src/index.js"
+    ".": "./src/index.js",
+    "./styles": "./src/scss/styles.scss"
   },
+  "style": "src/scss/styles.scss",
+  "files": [
+    "src/"
+  ],
   "scripts": {
     "build": "echo 'No build step required'",
     "test": "echo 'No tests yet'"

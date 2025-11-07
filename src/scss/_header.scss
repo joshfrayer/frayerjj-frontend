@@ -1,0 +1,15 @@
+header {
+    background: $color-gradient-light-blue-background;
+    .container {
+        @extend .pt-5,.pb-5;
+    }
+}
+@media print {
+    header {
+        background: none;
+        text-align: center;
+        .col-sm-12 {
+            padding: 0 !important;
+        }
+    }
+}
