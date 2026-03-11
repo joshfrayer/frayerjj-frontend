@@ -24,6 +24,19 @@ span.required {
 .input-group label.error {
   right: 1em;
 }
+.danger-switch:active {
+    filter: brightness(90%);
+}
+.danger-switch:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%28220, 53, 69, 1%29'/%3e%3c/svg%3e");
+}
+.danger-switch:checked {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+}
 .tt-query, .tt-hint {
   padding: 8px 12px;
   font-size: 17px;

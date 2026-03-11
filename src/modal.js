@@ -27,7 +27,7 @@ export const modal = {
                         id: randomId,
                         title: el.getAttribute('modal-title'),
                         body: '',
-                        class: (el.getAttribute('modal-class') ?? ''),
+                        className: (el.getAttribute('modal-class') ?? ''),
                         buttons: buttons
                     }));
                     let ajaxModal = document.getElementById(randomId),
@@ -187,7 +187,7 @@ export const modal = {
             let modalDialog = document.createElement('div');
             modalDialog.className = 'modal-dialog';
             if (args.className)
-                modalDialog.classList.add(args.class);
+                modalDialog.classList.add(args.className);
     
             // Modal content
             let modalContent = document.createElement('div');

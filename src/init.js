@@ -53,6 +53,13 @@ export const init = (args) => {
             setHeigth();
             window.addEventListener('resize', setHeigth);
         }
+
+        // Update date/time values to browser settings.
+        document.querySelectorAll('.dt-localize').forEach(el => {
+            msg.verbose('Localizing Date/Time');
+            const date = new Date(el.dataset.utc);
+            el.innerText = date.toLocaleString();
+        });
             
         // Updates the id in the form action inside a modal. Used for delete confirm and edit modals.
         document.querySelectorAll('.modal-uuid-update').forEach(el => {

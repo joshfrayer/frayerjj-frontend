@@ -45,7 +45,7 @@ export const loading = {
                     loading.interval = setInterval(loading.planetarium.animation, loading.planetarium.delay);
                 }
                 // Stop at Corona for Delay
-                if (loading.planetarium.shadowOffset == -65 && loading.planetarium.wait > 0)
+                if (loading.planetarium.shadowOffset == -60 && loading.planetarium.wait > 0)
                     loading.planetarium.wait--;
                 // Standard Movement Per Frame
                 else {
