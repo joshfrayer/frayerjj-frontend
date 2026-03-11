@@ -1,12 +1,25 @@
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { 
+    ClassicEditor,
+    Essentials,
+    Autoformat,
+    Bold,
+    Italic,
+    BlockQuote,
+    GeneralHtmlSupport,
+    Heading,
+    Image,
+    ImageUpload,
+    List,
+    Paragraph,
+    Table,
+    TableToolbar,
+    Link,
+    Undo
+} from 'ckeditor5';
+
 import { msg } from "./msg";
 
 export const ckeupload = {
-    adapter: editor => {
-        editor.plugins.get('FileRepository').createUploadAdapter = loader => {
-            return new CkeUploadAdapter(loader, editor.config._config.extraParams.uri, editor.config._config.extraParams.token);
-        };
-    },
     init: () => {
         class CkeUploadAdapter {
             constructor(loader, uri, token) {
@@ -57,7 +70,19 @@ export const ckeupload = {
                 this.xhr.send(data);
             }
         };
+
+        function CustomUploadAdapterPlugin(editor) {
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                const uri = document.querySelector('meta[name="asset-upload"]').getAttribute('content');
+                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                return new CkeUploadAdapter(loader, uri, token);
+            };
+        }
+
+        const ckeLicenseKey = document.querySelector('meta[name="cke-license-key"]')?.getAttribute('content') || 'GPL';
+
         window.editors = [];
+
         document.querySelectorAll('.wysiwyg').forEach(el => {
             if (el.getAttribute('data-bs-toggle') === 'tooltip') {
                 let placement = el.getAttribute('data-bs-placement'),
@@ -70,7 +95,19 @@ export const ckeupload = {
                 el.removeAttribute('title');
             }
             ClassicEditor.create(el, {
-                licenseKey: 'GPL',
+                plugins: [
+                    Essentials, Autoformat, Bold, Italic, BlockQuote, Heading, Image, 
+                    ImageUpload, List, Paragraph, Table, TableToolbar, Link, Undo,
+                    GeneralHtmlSupport, CustomUploadAdapterPlugin
+                ],
+                toolbar: [
+                    'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 
+                    '|', 'outdent', 'indent', '|', 'imageUpload', 'blockQuote', 'insertTable', 'undo', 'redo'
+                ],
+                table: {
+                    contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
+                },
+                licenseKey: ckeLicenseKey,
                 htmlSupport: {
                     allow: [{
                         name: /.*/,
@@ -78,12 +115,7 @@ export const ckeupload = {
                         classes: true,
                         styles: true
                     }]
-                },
-                extraParams: {
-                    uri: document.querySelector('meta[name="asset-upload"]').getAttribute('content'), 
-                    token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                extraPlugins: [ CkeUploadAdapter ]
+                }
             }).then(editor => {
                 window.editors[el.id] = editor;
                 msg.verbose('CKEditor Initialized');

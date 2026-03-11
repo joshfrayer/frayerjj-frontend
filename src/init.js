@@ -1,5 +1,5 @@
 import * as bootstrap from 'bootstrap';
-import { ClassicEditor } from '@ckeditor/ckeditor5-build-classic';
+import { ClassicEditor } from 'ckeditor5';
 import { createPopper } from '@popperjs/core';
 import { avatarCropper } from './avatarCropper';
 import { ckeupload } from './ckeupload';
