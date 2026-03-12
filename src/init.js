@@ -61,7 +61,7 @@ export const init = (args) => {
         document.querySelectorAll('.dt-localize').forEach(el => {
             msg.verbose('Localizing Date/Time');
             const date = new Date(el.dataset.utc);
-            el.innerText = date.toLocaleString(undefined, options);
+            el.innerText = date.toLocaleString();
         });
             
         // Updates the id in the form action inside a modal. Used for delete confirm and edit modals.
