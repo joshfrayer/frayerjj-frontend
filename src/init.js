@@ -8,6 +8,7 @@ import { hasMany } from './hasMany';
 import { loading } from './loading';
 import { msg } from './msg';
 import { modal } from './modal';
+import { wizard } from './wizard';
 import { phoneInput } from './phoneInput';
 import { session } from './session';
 import { validate } from './validate';
@@ -21,6 +22,7 @@ export const init = (args) => {
     window.session = session;
     window.validate = validate;
     window.loading = loading;
+    window.wizard = wizard;
     window.ClassicEditor = ClassicEditor;
     loading.init(args?.loadingAnimationStyle ?? 'default');
 
@@ -34,6 +36,7 @@ export const init = (args) => {
         modal.ajax.init();
         phoneInput.init();
         validate.init();
+        wizard.init();
 
         //Dynamic height for container-fixed
         let container = document.querySelectorAll('.container-fixed');
@@ -58,7 +61,7 @@ export const init = (args) => {
         document.querySelectorAll('.dt-localize').forEach(el => {
             msg.verbose('Localizing Date/Time');
             const date = new Date(el.dataset.utc);
-            el.innerText = date.toLocaleString();
+            el.innerText = date.toLocaleString(undefined, options);
         });
             
         // Updates the id in the form action inside a modal. Used for delete confirm and edit modals.
