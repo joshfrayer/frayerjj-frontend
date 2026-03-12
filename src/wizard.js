@@ -4,16 +4,16 @@ import { validate } from './validate.js';
 export const wizard = {
     init: () => {
         msg.verbose('Initializing Wizard');
-        document.querySelectorAll('.wizard').forEach(wizard => {
-            const animated = wizard.getAttribute('wizard-animated') !== 'false';
-            const animationSpeed = parseInt(wizard.getAttribute('wizard-animation-speed')) || 300;
-            const steps = wizard.querySelectorAll('.wizard-step');
+        document.querySelectorAll('.wizard').forEach(el => {
+            const animated = el.getAttribute('wizard-animated') !== 'false';
+            const animationSpeed = parseInt(el.getAttribute('wizard-animation-speed')) || 300;
+            const steps = el.querySelectorAll('.wizard-step');
             let currentStep = 0;
             
             steps[currentStep].classList.add('active');
             steps[currentStep].style.opacity = 1;
 
-            wizard.querySelectorAll('.wizard-next').forEach(button => {
+            el.querySelectorAll('.wizard-next').forEach(button => {
                 button.addEventListener('click', () => {
                     if (!validate.check(steps[currentStep])) {
                         msg.warn('Form failed validation. Please fix the errors before proceeding.');
@@ -23,7 +23,7 @@ export const wizard = {
                     currentStep++;
                 });
             });
-            wizard.querySelectorAll('.wizard-back').forEach(button => {
+            el.querySelectorAll('.wizard-back').forEach(button => {
                 button.addEventListener('click', () => {
                     wizard.transition(steps[currentStep], steps[currentStep - 1], 'back', animated, animationSpeed);
                     currentStep--;
