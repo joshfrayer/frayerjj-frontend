@@ -1,6 +1,7 @@
 .wizard {
     overflow: hidden;
     position: relative;
+    transition: height 0.3s ease;
 }
 .wizard-step {
     display: none;
@@ -8,6 +9,12 @@
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 .wizard-step.active {
+    display: block;
+}
+.wizard-step.transitioning {
+    position: absolute;
+    top: 0;
+    left: 0;
     display: block;
 }
 .slide-in-right {

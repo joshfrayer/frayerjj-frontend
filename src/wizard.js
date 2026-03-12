@@ -32,6 +32,10 @@ export const wizard = {
         });
     },
     transition: (from, to, direction, animated, speed) => {
+        const parent = from.parentElement;
+        parent.style.height = `${from.offsetHeight}px`;
+        parent.style.transition = `height ${speed}ms ease`;
+
         if (!animated) {
             from.classList.remove('active');
             to.classList.add('active');
@@ -42,19 +46,22 @@ export const wizard = {
         const inClass = direction === 'next' ? 'slide-in-right' : 'slide-in-left';
 
         to.style.transition = 'none';
-        to.classList.add('active', inClass);
+        to.classList.add('active', 'transitioning', inClass);
         to.offsetHeight; // Trigger reflow
+        parent.style.height = `${to.offsetHeight}px`;
         from.style.transition = `transform ${speed}ms, opacity ${speed}ms`;
         to.style.transition = `transform ${speed}ms, opacity ${speed}ms`;
-        from.classList.add(outClass);
+        from.classList.add('transitioning', outClass);
         to.classList.remove(inClass);
         to.classList.add('slide-center');
 
         setTimeout(() => {
-            from.classList.remove('active', outClass);
-            to.classList.remove(inClass, 'slide-center');
+            from.classList.remove('active', 'transitioning', outClass);
+            to.classList.remove('transitioning', 'slide-center', inClass);
             from.style.transition = '';
             to.style.transition = '';
+            parent.style.height = '';
+            parent.style.transition = '';
         }, speed);
     }
 };
