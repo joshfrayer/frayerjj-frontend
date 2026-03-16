@@ -153,7 +153,8 @@ export const init = (args) => {
         }
 
         // Tab Session Persistence
-        document.querySelectorAll('.tab-session-persist').forEach(container => {
+        const PERSIST_CLASS = 'tab-session-persist';
+        document.querySelectorAll(`.${PERSIST_CLASS}`).forEach(container => {
             const storageKey = `activeTab_${window.location.pathname}_${container.id}`;
             const savedTarget = session.getStrVar(storageKey);
             msg.verbose(`Restoring tab for container #${container.id} with key ${storageKey}:`, savedTarget);
