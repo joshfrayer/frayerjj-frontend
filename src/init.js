@@ -152,6 +152,30 @@ export const init = (args) => {
             });
         }
 
+        // Tab Session Persistence
+        document.querySelectorAll('.tab-session-persist').forEach(container => {
+            const storageKey = `activeTab_${window.location.pathname}_${container.id}`;
+            const savedTarget = session.getStrVar(storageKey);
+            msg.verbose(`Restoring tab for container #${container.id} with key ${storageKey}:`, savedTarget);
+            if (savedTarget) {
+                const tabEl = container.querySelector(`[data-bs-target="${savedTarget}"], [href="${savedTarget}"]`);
+                if (tabEl) {
+                    const tab = new bootstrap.Tab(tabEl);
+                    tab.show();
+                }
+            }
+        });
+        document.addEventListener('shown.bs.tab', event => {
+            const tabButton = event.target;
+            const container = tabButton.closest(`.${PERSIST_CLASS}`);
+            if (container) {
+                const storageKey = `activeTab_${window.location.pathname}_${container.id}`;
+                const target = tabButton.getAttribute('data-bs-target') || tabButton.getAttribute('href');
+                session.set(storageKey, target);
+                msg.verbose(`Saved active tab for container #${container.id} with key ${storageKey}:`, target);
+            }
+        });
+
     });
 
 }
