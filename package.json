@@ -1,6 +1,6 @@
 {
   "name": "frayerjj-frontend",
-  "version": "0.7.10",
+  "version": "0.8.0",
   "description": "My base frontend for various projects",
   "main": "src/index.js",
   "type": "module",
@@ -23,7 +23,6 @@
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.8",
     "ckeditor5": "^47.6.1",
-    "corejs-typeahead": "^1.3.4",
     "cropperjs": "^2.1.0",
     "flag-icons": "^7.5.0",
     "libphonenumber-js": "^1.12.39",
