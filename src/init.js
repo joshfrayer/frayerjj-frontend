@@ -12,6 +12,7 @@ import { wizard } from './wizard';
 import { phoneInput } from './phoneInput';
 import { session } from './session';
 import { validate } from './validate';
+import { autocomplete } from './autocomplete';
 
 export const init = (args) => {
 
@@ -23,6 +24,7 @@ export const init = (args) => {
     window.validate = validate;
     window.loading = loading;
     window.wizard = wizard;
+    window.autocomplete = autocomplete;
     window.ClassicEditor = ClassicEditor;
     loading.init(args?.loadingAnimationStyle ?? 'default');
 
@@ -37,7 +39,8 @@ export const init = (args) => {
         phoneInput.init();
         validate.init();
         wizard.init();
-
+        autocomplete.init();
+        
         //Dynamic height for container-fixed
         let container = document.querySelectorAll('.container-fixed');
         if (container.length) {
