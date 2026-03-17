@@ -28,7 +28,9 @@ export const autocomplete = {
                 });
                 ul.appendChild(li);
             });
-            ul.style.display = 'block';
+            requestAnimationFrame(() => {
+                ul.style.display = 'block';
+            }); // Show after render to prevent hiding due to click listener on document
         } else ul.style.display = 'none';
     },
     init: () => {
