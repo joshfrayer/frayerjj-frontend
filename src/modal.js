@@ -52,6 +52,8 @@ export const modal = {
                             });
                         } else loading.stop();
                         msg.verbose('AJAX Modal Loaded');
+                        const loadedEvent = new Event('ajaxModal.loaded', { bubbles: true });
+                        el.dispatchEvent(loadedEvent);
                         if (!el.getAttribute('modal-info')) {
                             msg.verbose('Adding submit handler to AJAX Modal');
                             ajaxModal.querySelector('.btn-save').addEventListener('click', () => {
