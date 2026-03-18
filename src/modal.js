@@ -39,6 +39,7 @@ export const modal = {
                         ev.target.remove();
                     });
                     let bsAjaxModal = Modal.getOrCreateInstance(ajaxModal);
+                    modal._lastFocus = document.activeElement;
                     bsAjaxModal.show();
                     loading.start(0, ajaxModalBody);
                     msg.verbose('Loading AJAX Modal');
@@ -93,7 +94,7 @@ export const modal = {
 
     alert: (messsage, title = "Alert", button = "OK") => {
         msg.verbose('Building Alert Modal');
-        let randomId = modal.randomId('confirm');
+        let randomId = modal.randomId('alert');
         document.querySelector('body').insertAdjacentHTML('beforeend', modal.build.modal({
             id: randomId,
             title: title,
@@ -108,7 +109,7 @@ export const modal = {
         alertModal.addEventListener('hidden.bs.modal', ev => {
             ev.target.remove();
         });
-        modal.close();
+        modal._lastFocus = document.activeElement;
         bsAlertModal.show();
     },
 
@@ -292,15 +293,21 @@ export const modal = {
         confirmModal.querySelector('.btn-outline-danger').addEventListener('click', () => {
             onCancel();
         });
-        modal.close();
+        modal._lastFocus = document.activeElement;
         bsConfirmModal.show();
     },
 
     focusFix: () => {
-        const fallback = document.querySelector('main') || document.body;
-        if (!fallback.hasAttribute('tabindex'))
-            fallback.setAttribute('tabindex', '-1');
-        fallback.focus();
+        setTimeout(() => {
+            if (modal._lastFocus && document.contains(modal._lastFocus)) {
+                modal._lastFocus.focus();
+                return;
+            }
+            const fallback = document.querySelector('main') || document.body;
+            if (!fallback.hasAttribute('tabindex'))
+                fallback.setAttribute('tabindex', '-1');
+            fallback.focus();
+        }, 0);
     },
 
     randomId: (base = 'modal') => {
