@@ -33,6 +33,7 @@ export const modal = {
                     let ajaxModal = document.getElementById(randomId),
                         ajaxModalBody = ajaxModal.querySelector('.modal-body');
                     ajaxModal.addEventListener('hidden.bs.modal', ev => {
+                        document.body.focus();
                         ev.target.remove();
                     });
                     let bsAjaxModal = Modal.getOrCreateInstance(ajaxModal);
@@ -100,6 +101,7 @@ export const modal = {
         let alertModal = document.getElementById(randomId),
             bsAlertModal = Modal.getOrCreateInstance(alertModal);
         alertModal.addEventListener('hidden.bs.modal', ev => {
+            document.body.focus();
             ev.target.remove();
         });
         modal.close();
@@ -275,6 +277,7 @@ export const modal = {
         let confirmModal = document.getElementById(randomId),
             bsConfirmModal = Modal.getOrCreateInstance(confirmModal);
         confirmModal.addEventListener('hidden.bs.modal', ev => {
+            document.body.focus();
             ev.target.remove();
         });
         confirmModal.querySelector('.btn-confirm').addEventListener('click', () => {
