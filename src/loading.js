@@ -14,7 +14,7 @@ export const loading = {
         wait: session.getIntVar('loadingWait', 20), // Number of Frames to Wait at Corona
         delay: session.getIntVar('loadingDelay', 20), // Interval Delay
         corona_approach: -45,
-        corona_target: -60,
+        corona_target: -65,
         corona_departure: -105,
         frame_differential: -2,
 
