@@ -13,6 +13,10 @@ export const loading = {
         logoOffset: session.getIntVar('loadingLogoOffset', -50), // Initial Position One Step After Corona
         wait: session.getIntVar('loadingWait', 20), // Number of Frames to Wait at Corona
         delay: session.getIntVar('loadingDelay', 20), // Interval Delay
+        corona_approach: -45,
+        corona_target: -60,
+        corona_departure: -105,
+        frame_differential: -2,
 
         build: el => {
             if (loading.interval != null) loading.clear();
@@ -28,49 +32,53 @@ export const loading = {
         },
 
         animation: () => {
-            if (document.querySelector('.loading') == null) {
-                clearInterval(loading.interval);
-                loading.interval = null;
-            } else {
-                // Slow Down for Corona Approach
-                if (loading.planetarium.shadowOffset == -45) {
+            const p = loading.planetarium;
+            const el = document.querySelector('.loading');
+            if (!el) {
+                if (loading.interval) {
                     clearInterval(loading.interval);
-                    loading.planetarium.delay = 20;
-                    loading.interval = setInterval(loading.planetarium.animation, loading.planetarium.delay);
+                    loading.interval = null;
                 }
-                // Speed Up for Corona Departure
-                if (loading.planetarium.shadowOffset == -105) {
-                    clearInterval(loading.interval);
-                    loading.planetarium.delay = 10;
-                    loading.interval = setInterval(loading.planetarium.animation, loading.planetarium.delay);
-                }
-                // Stop at Corona for Delay
-                if (loading.planetarium.shadowOffset == -60 && loading.planetarium.wait > 0)
-                    loading.planetarium.wait--;
-                // Standard Movement Per Frame
-                else {
-                    loading.planetarium.shadowOffset -= 2;
-                    loading.planetarium.logoOffset += 2;
-                    loading.planetarium.wait = 20;
-                }
-                // Reset Animation
-                if (loading.planetarium.shadowOffset < -165) {
-                    loading.planetarium.shadowOffset = 35;
-                    loading.planetarium.logoOffset = -152;
-                }
-                // Apply Movement
-                let shadow = document.querySelector('.loader-shadow');
-                if (shadow)
-                    shadow.style.cssText = 'margin-top:' + (loading.planetarium.shadowOffset - 15) + 'px;margin-left:' + loading.planetarium.shadowOffset + 'px;';
-                let logo = document.querySelector('.loader-logo');
-                if (logo)
-                    logo.style.cssText = 'margin-top:' + (loading.planetarium.logoOffset + 32) + 'px;margin-left:' + loading.planetarium.logoOffset + 'px;';
-                // Save State
-                session.set('loadingShadowOffset', loading.planetarium.shadowOffset);
-                session.set('loadingLogoOffset', loading.planetarium.logoOffset);
-                session.set('loadingWait', loading.planetarium.wait);
-                session.set('loadingDelay', loading.planetarium.delay);
+                return;
             }
+            
+            // Slow Down for Corona Approach
+            if (Math.abs(p.shadowOffset - p.corona_approach) < Math.abs(p.frame_differential)) {
+                clearInterval(loading.interval);
+                p.delay = 20;
+                loading.interval = setInterval(p.animation, p.delay);
+            }
+            if (Math.abs(p.shadowOffset - p.corona_departure) < Math.abs(p.frame_differential)) {
+                clearInterval(loading.interval);
+                p.delay = 10;
+                loading.interval = setInterval(p.animation, p.delay);
+            }
+            // Stop at Corona for Delay
+            if (Math.abs(p.shadowOffset - p.corona_target) < Math.abs(p.frame_differential) && loading.planetarium.wait > 0)
+                p.wait--;
+            // Standard Movement Per Frame
+            else {
+                p.shadowOffset += p.frame_differential;
+                p.logoOffset += 2;
+                p.wait = 20;
+            }
+            // Reset Animation
+            if (p.shadowOffset < -165) {
+                p.shadowOffset = 35;
+                p.logoOffset = -152;
+            }
+            // Apply Movement
+            let shadow = document.querySelector('.loader-shadow');
+            if (shadow)
+                shadow.style.cssText = 'margin-top:' + (p.shadowOffset - 15) + 'px;margin-left:' + p.shadowOffset + 'px;';
+            let logo = document.querySelector('.loader-logo');
+            if (logo)
+                logo.style.cssText = 'margin-top:' + (p.logoOffset + 32) + 'px;margin-left:' + p.logoOffset + 'px;';
+            // Save State
+            session.set('loadingShadowOffset', p.shadowOffset);
+            session.set('loadingLogoOffset', p.logoOffset);
+            session.set('loadingWait', p.wait);
+            session.set('loadingDelay', p.delay);
         }
     },
 
