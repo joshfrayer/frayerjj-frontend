@@ -44,14 +44,18 @@ export const loading = {
             
             // Slow Down for Corona Approach
             if (Math.abs(p.shadowOffset - p.corona_approach) < Math.abs(p.frame_differential)) {
-                clearInterval(loading.interval);
-                p.delay = 20;
-                loading.interval = setInterval(p.animation, p.delay);
+                if (p.delay !== 20) {
+                    clearInterval(loading.interval);
+                    p.delay = 20;
+                    loading.interval = setInterval(p.animation, p.delay);
+                }
             }
             if (Math.abs(p.shadowOffset - p.corona_departure) < Math.abs(p.frame_differential)) {
-                clearInterval(loading.interval);
-                p.delay = 10;
-                loading.interval = setInterval(p.animation, p.delay);
+                if (p.delay !== 10) {
+                    clearInterval(loading.interval);
+                    p.delay = 10;
+                    loading.interval = setInterval(p.animation, p.delay);
+                }
             }
             // Stop at Corona for Delay
             if (Math.abs(p.shadowOffset - p.corona_target) < Math.abs(p.frame_differential) && loading.planetarium.wait > 0)
