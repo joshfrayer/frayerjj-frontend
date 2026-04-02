@@ -38,13 +38,8 @@ export const quillUpload = {
         };
         window.editors = {};
         document.querySelectorAll('.wysiwyg').forEach(editor => {
-            if (editor.getAttribute('data-bs-toggle') === 'tooltip') {
-                const placement = editor.getAttribute('data-bs-placement') || 'top';
-                const title = editor.getAttribute('title') || 'Click to edit';
-                editor.parentElement.setAttribute('data-bs-toggle', 'tooltip');
-                editor.parentElement.setAttribute('data-bs-placement', placement);
-                editor.parentElement.setAttribute('title', title);
-            }
+            const inputId = editor.getAttribute('data-input-id');
+            const hiddenInput = document.getElementById(inputId);
             const quill = new Quill(editor, {
                 theme: 'snow',
                 modules: {
@@ -62,9 +57,9 @@ export const quillUpload = {
                     }
                 }
             });
-            if (editor.tagName.toLowerCase() === 'textarea' && !quill.root.innerHTML.trim()) quill.root.innerHTML = editor.value;
+            if (hiddenInput && !quill.root.innerHTML.trim()) quill.root.innerHTML = hiddenInput.value;
             quill.on('text-change', () => {
-                editor.value = quill.root.innerHTML;
+                if (hiddenInput) hiddenInput.value = quill.root.innerHTML;
             });
             if (editor.id) window.editors[editor.id] = quill;
             msg.verbose('Quill Initialized');
