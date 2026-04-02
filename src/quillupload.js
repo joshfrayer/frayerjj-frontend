@@ -38,8 +38,8 @@ export const quillUpload = {
         };
         window.editors = {};
         document.querySelectorAll('.wysiwyg').forEach(editor => {
-            const inputId = editor.getAttribute('data-input-id');
-            const hiddenInput = document.getElementById(inputId);
+            const inputName = editor.getAttribute('data-input-name');
+            const hiddenInput = document.querySelector(`[name="${inputName}"]`);
             const quill = new Quill(editor, {
                 theme: 'snow',
                 modules: {
@@ -60,6 +60,7 @@ export const quillUpload = {
             if (hiddenInput && !quill.root.innerHTML.trim()) quill.root.innerHTML = hiddenInput.value;
             quill.on('text-change', () => {
                 if (hiddenInput) hiddenInput.value = quill.root.innerHTML;
+                else console.error(`Hidden input with id "${inputId}" not found for editor.`);
             });
             if (editor.id) window.editors[editor.id] = quill;
             msg.verbose('Quill Initialized');
