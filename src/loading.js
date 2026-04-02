@@ -150,7 +150,7 @@ export const loading = {
         let opacity = 9;
         let fade = setInterval(() => {
             el.style.opacity = '.' + opacity--;
-            if (opacity == 0) {
+            if (opacity <= 0) {
                 clearInterval(fade);
                 loading.clear();
             }

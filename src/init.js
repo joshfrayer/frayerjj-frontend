@@ -1,8 +1,7 @@
 import * as bootstrap from 'bootstrap';
-import { ClassicEditor } from 'ckeditor5';
 import { createPopper } from '@popperjs/core';
 import { avatarCropper } from './avatarCropper';
-import { ckeupload } from './ckeupload';
+import { quillUpload } from './quillupload';
 import { fileUpload } from './fileUpload';
 import { hasMany } from './hasMany';
 import { loading } from './loading';
@@ -25,14 +24,13 @@ export const init = (args) => {
     window.loading = loading;
     window.wizard = wizard;
     window.autocomplete = autocomplete;
-    window.ClassicEditor = ClassicEditor;
     loading.init(args?.loadingAnimationStyle ?? 'default');
 
     window.addEventListener('load', () => {
 
         msg.verbose('Page Loaded, Initializing');
         avatarCropper.init();
-        ckeupload.init();
+        quillUpload.init();
         fileUpload.init();
         hasMany.init();
         modal.ajax.init();

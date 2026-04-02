@@ -22,10 +22,10 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.8",
-    "ckeditor5": "^47.6.1",
     "cropperjs": "^2.1.0",
     "flag-icons": "^7.5.0",
     "libphonenumber-js": "^1.12.39",
-    "patch-package": "^8.0.1"
+    "patch-package": "^8.0.1",
+    "quill": "^2.0.3"
   }
 }
