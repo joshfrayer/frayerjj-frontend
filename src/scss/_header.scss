@@ -1,6 +1,6 @@
 header {
     background: $color-gradient-light-blue-background;
-    .container {
+    .container, .container-fluid {
         @extend .pt-5,.pb-5;
     }
 }

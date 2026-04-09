@@ -2,7 +2,7 @@ body {
     font-family: $font-family-default;
     @extend .d-flex,.flex-column,.min-vh-100;
     main {
-        @extend .container,.flex-grow-1,.d-flex,.justify-content-center,.align-items-start;
+        @extend .flex-grow-1,.d-flex,.justify-content-center,.align-items-start;
     }
 }
 .skip {

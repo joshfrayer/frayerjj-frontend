@@ -2,7 +2,7 @@ body.dialog {
     background-color: $color-blue;
     header {
         background: none;
-        @extend .container,.py-3,.d-print-none;
+        @extend .py-3,.d-print-none;
     }
     main {
         @extend .align-items-center;

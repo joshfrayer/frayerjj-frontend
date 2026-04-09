@@ -4,7 +4,7 @@ footer {
     font-weight: 400;
     text-transform: uppercase;
     @extend .text-white,.p-2,.d-print-none;
-    .container {
+    .container,.container-fluid {
         @extend .d-flex,.justify-content-between,.align-items-center;
         form {
             @extend .d-flex,.align-items-center;
