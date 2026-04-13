@@ -106,7 +106,28 @@ export const init = (args) => {
                 modal.confirm(
                     el.getAttribute('confirm-msg') || 'Are you sure?',
                     () => {
-                        location.href = el.getAttribute('href');
+                        const href = el.getAttribute('href');
+                        if (el.classList.contains('delete-link')) {
+                            const form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = href;
+                            const methodInput = document.createElement('input');
+                            methodInput.type = 'hidden';
+                            methodInput.name = '_method';
+                            methodInput.value = 'DELETE';
+                            form.appendChild(methodInput);
+                            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+                            if (csrfToken) {
+                                const csrfInput = document.createElement('input');
+                                csrfInput.type = 'hidden';
+                                csrfInput.name = '_token';
+                                csrfInput.value = csrfToken;
+                                form.appendChild(csrfInput);
+                            }
+                            document.body.appendChild(form);
+                            form.submit();
+                        } else 
+                            location.href = href;
                     },
                     () => {},
                     el.getAttribute('confirm-title') || 'Confirm',
