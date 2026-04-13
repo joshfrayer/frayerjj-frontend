@@ -2,7 +2,7 @@
     @extend .navbar,.navbar-dark,.d-print-none;
     background-image: linear-gradient(90deg, $color-blue, $primary-color);
     .navbar-nav {
-        > li:not(.user-icon) {
+        > li {
             @extend .nav-item,.me-4;
             > a {
                 @extend .nav-link;
