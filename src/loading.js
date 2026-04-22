@@ -127,8 +127,9 @@ export const loading = {
             if (unload) {
                 let opacity = 0;
                 let fade = setInterval(() => {
-                    el.style.opacity = '.' + opacity++;
-                    if (opacity == 10) {
+                    el.style.opacity = opacity;
+                    opacity += 0.1;
+                    if (opacity >= 1) {
                         clearInterval(fade);
                         el.style.opacity = null;
                     }
@@ -147,13 +148,18 @@ export const loading = {
     
     stop: () => {
         let el = document.querySelector('.loader');
-        let opacity = 9;
+        if (!el) return;
+        let opacity = 0.9;
         let fade = setInterval(() => {
-            el.style.opacity = '.' + opacity--;
-            if (opacity <= 0) {
+            if (el && document.body.contains(el)) {
+                el.style.opacity = opacity;
+                opacity -= 0.1;
+                if (opacity <= 0) {
+                    clearInterval(fade);
+                    loading.clear();
+                }
+            } else
                 clearInterval(fade);
-                loading.clear();
-            }
         }, 50);
     },
 
