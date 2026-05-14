@@ -3,8 +3,12 @@ import { msg } from "./msg";
 
 export const quillUpload = {
     init: () => {
-        const uri = document.querySelector('meta[name="asset-upload"]').getAttribute('content');
-        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const metaAssetUpload = document.querySelector('meta[name="asset-upload"]');
+        const metaCsrfToken = document.querySelector('meta[name="csrf-token"]');
+        if (!metaAssetUpload || !metaCsrfToken) 
+            return;
+        const uri = metaAssetUpload.getAttribute('content');
+        const token = metaCsrfToken.getAttribute('content');
         const selectLocalImage = (quillInstance) => {
             const input = document.createElement('input');
             input.setAttribute('type', 'file');
