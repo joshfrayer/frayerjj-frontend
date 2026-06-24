@@ -6,9 +6,13 @@
   "type": "module",
   "exports": {
     ".": "./src/index.js",
-    "./styles": "./src/scss/styles.scss"
+    "./full": "./src/full.js",
+    "./slim": "./src/slim.js",
+    "./styles": "./src/scss/styles.scss",
+    "./styles/full": "./src/scss/full.scss",
+    "./styles/slim": "./src/scss/slim.scss"
   },
-  "style": "src/scss/styles.scss",
+  "style": "src/scss/full.scss",
   "sideEffects": [
     "**/*.css",
     "**/*.scss"
