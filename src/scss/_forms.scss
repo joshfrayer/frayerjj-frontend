@@ -37,36 +37,3 @@ span.required {
     border-color: #dc3545;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
 }
-.token {
-  display: inline-block;
-  background-color: $color-light-gray-background;
-  border: 1px solid $color-light-gray;
-  margin: 0.25rem 0.5rem 0.25rem 0;
-  padding: 0 0.5rem;
-  border-radius: 0.25rem;
-  .close {
-    margin-left: 0.5rem;
-    text-decoration: none;
-    color: $color-black;
-  }
-}
-.token-input,.token-input:focus-visible {
-  border: none;
-  outline: none;
-}
-.tokenfield {
-  height: auto !important;
-}
-.search-input .list-group {
-  z-index: 1;
-  .list-group-item:first-child {
-    border-top-left-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-  }
-}
-.input-loader {
-  position: absolute;
-  top: 0.45rem;
-  right: .45rem;
-  font-size: 18pt;
-}

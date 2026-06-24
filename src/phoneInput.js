@@ -1,3 +1,4 @@
+import 'flag-icons/css/flag-icons.min.css';
 import { parsePhoneNumber } from 'libphonenumber-js/min';
 
 export const phoneInput = {

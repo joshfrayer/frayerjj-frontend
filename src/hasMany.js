@@ -1,3 +1,4 @@
+import './scss/_tokenfield.scss';
 import { msg } from './msg.js';
 import { modal } from './modal.js';
 

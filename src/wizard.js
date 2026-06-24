@@ -1,3 +1,4 @@
+import './scss/_wizard.scss';
 import { msg } from './msg.js';
 import { validate } from './validate.js';
 

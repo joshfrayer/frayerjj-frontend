@@ -1,3 +1,4 @@
+import './scss/_autocomplete.scss';
 export const autocomplete = {
     registry: new Map(),
     evalPattern: (pattern, item) => {

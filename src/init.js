@@ -1,43 +1,65 @@
 import * as bootstrap from 'bootstrap';
-import { createPopper } from '@popperjs/core';
-import { avatarCropper } from './avatarCropper';
-import { quillUpload } from './quillupload';
-import { fileUpload } from './fileUpload';
-import { hasMany } from './hasMany';
 import { loading } from './loading';
 import { msg } from './msg';
 import { modal } from './modal';
-import { wizard } from './wizard';
-import { phoneInput } from './phoneInput';
 import { session } from './session';
 import { validate } from './validate';
 import { autocomplete } from './autocomplete';
 
 export const init = (args) => {
 
+    const excluded = new Set(args?.exclude ?? []);
+    const use = (name) => !excluded.has(name);
+
     window.bootstrap = bootstrap;
-    window.createPopper = createPopper;
     window.msg = msg;
     window.modal = modal;
     window.session = session;
     window.validate = validate;
     window.loading = loading;
-    window.wizard = wizard;
     window.autocomplete = autocomplete;
     loading.init(args?.loadingAnimationStyle ?? 'default');
 
-    window.addEventListener('load', () => {
+    window.addEventListener('load', async () => {
 
         msg.verbose('Page Loaded, Initializing');
-        avatarCropper.init();
-        quillUpload.init();
-        fileUpload.init();
-        hasMany.init();
-        modal.ajax.init();
-        phoneInput.init();
-        validate.init();
-        wizard.init();
-        autocomplete.init();
+        if (use('popper')) {
+            const { createPopper } = await import('@popperjs/core');
+            window.createPopper = createPopper;
+        }
+        if (use('cropper')) {
+            const { avatarCropper } = await import('./avatarCropper');
+            window.avatarCropper = avatarCropper;
+            avatarCropper.init();
+        }
+        if (use('quill')) {
+            const { quillUpload } = await import('./quillupload');
+            window.quillUpload = quillUpload;
+            quillUpload.init();
+        }
+        if (use('fileUpload')) {
+            const { fileUpload } = await import('./fileUpload');
+            window.fileUpload = fileUpload;
+            fileUpload.init();
+        }
+        if (use('hasMany')) {
+            const { hasMany } = await import('./hasMany');
+            window.hasMany = hasMany;
+            hasMany.init();
+        }
+        if (use('modal')) modal.ajax.init();
+        if (use('phoneInput')) {
+            const { phoneInput } = await import('./phoneInput');
+            window.phoneInput = phoneInput;
+            phoneInput.init();
+        }
+        if (use('validate')) validate.init();
+        if (use('wizard')) {
+            const { wizard } = await import('./wizard');
+            window.wizard = wizard;
+            wizard.init();
+        }
+        if (use('autocomplete')) autocomplete.init();
         
         //Dynamic height for container-fixed
         let container = document.querySelectorAll('.container-fixed');

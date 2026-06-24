@@ -1,6 +1,6 @@
 {
   "name": "frayerjj-frontend",
-  "version": "0.8.32",
+  "version": "0.8.33",
   "description": "My base frontend for various projects",
   "main": "src/index.js",
   "type": "module",
@@ -9,23 +9,25 @@
     "./styles": "./src/scss/styles.scss"
   },
   "style": "src/scss/styles.scss",
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ],
   "files": [
     "src/"
   ],
   "scripts": {
     "build": "echo 'No build step required'",
-    "test": "echo 'No tests yet'",
-    "postinstall": "patch-package"
+    "test": "echo 'No tests yet'"
   },
   "author": "Joshua Frayer",
   "license": "MIT",
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.8",
-    "cropperjs": "^2.1.0",
+    "cropperjs": "^2.1.1",
     "flag-icons": "^7.5.0",
-    "libphonenumber-js": "^1.12.39",
-    "patch-package": "^8.0.1",
+    "libphonenumber-js": "^1.13.7",
     "quill": "^2.0.3"
   }
 }
