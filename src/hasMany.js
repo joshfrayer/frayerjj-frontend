@@ -88,7 +88,7 @@ export const hasMany = {
             if (option.checked)
                 input.checked = true
             input.id = name + option.id;
-            input.value = id;
+            input.value = option.id;
             item.appendChild(input);
             // Create label
             let label = document.createElement('label');
