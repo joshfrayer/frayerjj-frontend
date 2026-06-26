@@ -33,3 +33,29 @@
   right: .45rem;
   font-size: 18pt;
 }
+
+.hasmany {
+  .card {
+    border-color: var(--bs-border-color);
+  }
+
+  .card-footer {
+    padding: 0.5rem;
+  }
+
+  .hasmany-selected-list .list-group-item {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .hasmany-selected-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .hasmany-check-item {
+    display: flex;
+    align-items: center;
+  }
+}

@@ -25,13 +25,17 @@ export const hasMany = {
             msg.verbose('Building Has Many Inupt');
             // Create container
             let container = document.createElement('div');
+            container.className = 'hasmany';
+            // Create card wrapper
+            let card = document.createElement('div');
+            card.className = 'card';
             // Create list of selected items
             let list = document.createElement('ul');
             list.id = 'id_' + args.name;
-            list.className = 'list-group list-group-flush';
+            list.className = 'list-group list-group-flush hasmany-selected-list';
             // Create list of all options for modal
             let modalList = document.createElement('ul');
-            modalList.className = 'list-group list-group-flush';
+            modalList.className = 'list-group list-group-flush hasmany-modal-list';
             // Create hidden input for when there is no selected items
             let input = document.createElement('input');
             input.type = 'hidden';
@@ -61,14 +65,19 @@ export const hasMany = {
             // Create button to open modal
             let button = document.createElement('button');
             button.type = 'button';
-            button.className = 'btn btn-outline-secondary btn-block';
+            button.className = 'btn btn-outline-secondary w-100';
             button.setAttribute('data-bs-toggle', 'modal');
             button.setAttribute('data-bs-target', '#' + randomId);
             button.textContent = args.messages?.button ?? hasMany.sampleArgs.messages.button;
+            // Create card footer for action button
+            let footer = document.createElement('div');
+            footer.className = 'card-footer bg-transparent';
+            footer.appendChild(button);
             // Add elements to container
             container.appendChild(input);
-            container.appendChild(list);
-            container.appendChild(button);
+            card.appendChild(list);
+            card.appendChild(footer);
+            container.appendChild(card);
             // Return container
             return container.outerHTML;
         },
@@ -76,10 +85,10 @@ export const hasMany = {
         checkItem: (name, option) => {
             // Create list item
             let item = document.createElement('li');
-            item.className = 'list-group-item';
+            item.className = 'list-group-item hasmany-check-item';
             // Create checkbox
             let input = document.createElement('input');
-            input.classList.add('form-check-input');
+            input.classList.add('form-check-input', 'mt-0');
             if (option.notb)
                 input.classList.add('hasmany-' + name + 'notb');
             else
@@ -92,6 +101,7 @@ export const hasMany = {
             item.appendChild(input);
             // Create label
             let label = document.createElement('label');
+            label.className = 'form-check-label ms-2 flex-grow-1';
             label.setAttribute('for', name + option.id);
             label.textContent = option.label;
             item.appendChild(label);
@@ -103,7 +113,7 @@ export const hasMany = {
             let item = document.createElement('li');
             item.id = 'id_' + name + '_' + option.id;
             item.textContent = option.label;
-            item.className = 'list-group-item';
+            item.className = 'list-group-item hasmany-selected-item';
             // Create hidden input
             let input = document.createElement('input');
             input.type = 'hidden';
