@@ -40,15 +40,15 @@ export const hasMany = {
             if (args.notb)
                 modalList.insertAdjacentHTML('beforeend', hasMany.build.checkItem(args.name, {
                     id: 'notb',
-                    label: (args.notbLabel ?? hasMany.sampleArgs.messages.notbLabel),
+                    label: (args.messages?.notbLabel ?? hasMany.sampleArgs.messages.notbLabel),
                     notb: true
                 }));
             // Cycle through all options
-            Objects.values(args.options).forEach(option => {
+            Object.values(args.options).forEach(option => {
                 modalList.insertAdjacentHTML('beforeend', hasMany.build.checkItem(args.name, option));
                 // If option is selected, add to list
                 if (option.checked)
-                    list.insertAdjacentHTML('beforeend', hasMany.build.item(args.name, option));
+                    list.insertAdjacentHTML('beforeend', hasMany.build.listItem(args.name, option));
             });
             // Create modal
             let randomId = modal.randomId('hasmany');
@@ -56,7 +56,7 @@ export const hasMany = {
                 id: randomId,
                 title: args.title,
                 body: modalList.outerHTML,
-                buttons: [ { text: args.messages.close ?? hasMany.sampleArgs.messages.close } ]
+                buttons: [ { text: args.messages?.close ?? hasMany.sampleArgs.messages.close } ]
             }));
             // Create button to open modal
             let button = document.createElement('button');
@@ -64,7 +64,7 @@ export const hasMany = {
             button.className = 'btn btn-outline-secondary btn-block';
             button.setAttribute('data-bs-toggle', 'modal');
             button.setAttribute('data-bs-target', '#' + randomId);
-            button.textContent = args.messages.button ?? hasMany.sampleArgs.messages.button;
+            button.textContent = args.messages?.button ?? hasMany.sampleArgs.messages.button;
             // Add elements to container
             container.appendChild(input);
             container.appendChild(list);
@@ -125,7 +125,7 @@ export const hasMany = {
                 input.addEventListener('change', ev => {
                     if (ev.target.checked) {
                         // Add item to list
-                        document.querySelector('#id_' + args.name).insertAdjacentHTML('beforeend', hasMany.build.item(args.name, {
+                        document.querySelector('#id_' + args.name).insertAdjacentHTML('beforeend', hasMany.build.listItem(args.name, {
                             id: ev.target.value,
                             label: ev.target.nextElementSibling.textContent
                         }));
@@ -140,13 +140,14 @@ export const hasMany = {
             // Add event listener for None of the Below
             if (args.notb)
                 document.querySelector('.hasmany-' + args.name + 'notb').addEventListener('change', ev => {
-                    if (ev.target.checked)
+                    if (ev.target.checked) {
                         // Uncheck all other items
-                        document.querySelectorAll('hasmany-' + args.name).forEach(input => {
+                        document.querySelectorAll('.hasmany-' + args.name).forEach(input => {
                             input.checked = false;
                         });
                         // Remove all items from list
                         document.querySelector('#id_' + args.name).innerHTML = '';
+                    }
                 });
         });
     }
