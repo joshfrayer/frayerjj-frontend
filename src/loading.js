@@ -123,19 +123,22 @@ export const loading = {
         if (loading.interval != null) return;
         else {
             if (el == null) el = document.querySelector('body');
-            loading[loading.animationStyle].build(el);
+            const loader = loading[loading.animationStyle];
+            loader.build(el);
+            const loaderEl = document.querySelector('.loader');
             if (unload) {
                 let opacity = 0;
                 let fade = setInterval(() => {
-                    el.style.opacity = opacity;
+                    loaderEl.style.opacity = opacity;
                     opacity += 0.1;
                     if (opacity >= 1) {
                         clearInterval(fade);
-                        el.style.opacity = null;
+                        loaderEl.style.opacity = null;
                     }
                 }, 50);
             }
-            loading.interval = setInterval(loading[loading.animationStyle].animation, 10);
+            const delay = loader.delay ?? 10;
+            loading.interval = setInterval(loading[loading.animationStyle].animation, delay);
         }
     },
     
@@ -181,16 +184,12 @@ export const loading = {
             msg.verbose('Load Aborted, Clearing Animation');
             loading.clear();
         });
-        window.addEventListener('unload', () => {
-            msg.verbose('Page Unloaded, Clearing Animation');
-            loading.clear();
-        });
         window.addEventListener('load', () => {
             msg.verbose('Resources Loaded, Stopping Animation');
             loading.stop();
         });
         window.addEventListener('pageshow', (e) => {
-            if (e.originalEvent && e.originalEvent.persisted) {
+            if (e.persisted) {
                 msg.verbose('Back button detected, Stopping Animation');
                 loading.stop();
             }
