@@ -142,7 +142,7 @@ export const init = (args) => {
                             if (csrfToken) {
                                 const csrfInput = document.createElement('input');
                                 csrfInput.type = 'hidden';
-                                csrfInput.name = 'csrfmiddlewaretoken';
+                                csrfInput.name = el.getAttribute('confirm-token-name') || 'csrfmiddlewaretoken';
                                 csrfInput.value = csrfToken;
                                 form.appendChild(csrfInput);
                             }
