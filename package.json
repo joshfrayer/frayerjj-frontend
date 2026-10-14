@@ -1,6 +1,6 @@
 {
   "name": "frayerjj-frontend",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "description": "My base frontend for various projects",
   "main": "src/index.js",
   "type": "module",
@@ -35,15 +35,15 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.8",
-    "cropperjs": "^2.2.0",
+    "cropperjs": "^2.3.0",
     "flag-icons": "^7.5.0",
-    "libphonenumber-js": "^1.13.7",
+    "libphonenumber-js": "^1.13.15",
     "quill": "^2.0.3",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "jsdom": "^30.0.1",
-    "vitest": "^5.0.0"
+    "jsdom": "^30.1.2",
+    "vitest": "^5.0.4"
   }
 }
