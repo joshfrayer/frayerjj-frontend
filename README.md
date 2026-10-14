@@ -31,7 +31,7 @@ The default package root export remains available for backward compatibility.
 For apps already using React, this package now includes React-first versions of the most UI-heavy widgets.
 
 ```js
-import { AutocompleteInput, HasManyField, LoadingOverlay, Wizard } from 'frayerjj-frontend/react';
+import { AutocompleteInput, HasManyField, LoadingOverlay, Wizard, WorkflowDiagram } from 'frayerjj-frontend/react';
 import 'frayerjj-frontend/styles/full';
 ```
 
@@ -41,6 +41,7 @@ You can also import individual components:
 import { AutocompleteInput } from 'frayerjj-frontend/react/autocomplete';
 import { HasManyField } from 'frayerjj-frontend/react/has-many';
 import { LoadingOverlay } from 'frayerjj-frontend/react/loading';
+import { WorkflowDiagram } from 'frayerjj-frontend/react/workflow';
 import { Wizard } from 'frayerjj-frontend/react/wizard';
 ```
 
@@ -84,6 +85,33 @@ import { Wizard } from 'frayerjj-frontend/react/wizard';
 	onComplete={submitForm}
 />
 ```
+
+### WorkflowDiagram
+
+```js
+<WorkflowDiagram
+	steps={[
+		{ id: 'submitted', label: 'Submitted', complete: true, date: '2026-10-14T13:00:00Z' },
+		{ id: 'review', label: 'Under Review', current: true },
+		{ id: 'approved', label: 'Approved' }
+	]}
+/>
+```
+
+The full DOM initializer can also mount a workflow diagram from HTML:
+
+```html
+<div
+	class="workflow-diagram"
+	data-workflow-steps='[
+		{"id":"submitted","label":"Submitted","complete":true,"date":"2026-10-14T13:00:00Z"},
+		{"id":"review","label":"Under Review","current":true},
+		{"id":"approved","label":"Approved"}
+	]'
+></div>
+```
+
+Pass `{ exclude: ['workflow'] }` to `init` to disable automatic mounting.
 
 ## Migration Notes
 

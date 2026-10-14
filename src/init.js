@@ -42,5 +42,10 @@ export const init = (args) => {
             wizard.init();
         }
         if (use('autocomplete')) autocomplete.init();
+        if (use('workflow')) {
+            const { workflow } = await import('./workflow');
+            window.workflow = workflow;
+            workflow.init();
+        }
     });
 };

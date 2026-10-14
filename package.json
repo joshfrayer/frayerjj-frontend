@@ -1,6 +1,6 @@
 {
   "name": "frayerjj-frontend",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "My base frontend for various projects",
   "main": "src/index.js",
   "type": "module",
@@ -12,6 +12,7 @@
     "./react/autocomplete": "./src/react/AutocompleteInput.jsx",
     "./react/has-many": "./src/react/HasManyField.jsx",
     "./react/loading": "./src/react/LoadingOverlay.jsx",
+    "./react/workflow": "./src/react/WorkflowDiagram.jsx",
     "./react/wizard": "./src/react/Wizard.jsx",
     "./styles": "./src/scss/styles.scss",
     "./styles/full": "./src/scss/full.scss",
