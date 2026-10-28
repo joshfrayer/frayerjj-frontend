@@ -19,8 +19,8 @@ export const quillUpload = {
                 const file = input.files[0];
                 if (/^image\//.test(file.type)) {
                     const formData = new FormData();
-                    formData.append('owner_obj_str', quillInstance.root.dataset.ownerObjStr);
-                    formData.append('owner_id', quillInstance.root.dataset.ownerId);
+                    formData.append('owner_obj_str', quillInstance.container.dataset.ownerObjStr);
+                    formData.append('owner_id', quillInstance.container.dataset.ownerId);
                     formData.append('file', file);
                     const xhr = new XMLHttpRequest();
                     xhr.open('POST', uri, true);
